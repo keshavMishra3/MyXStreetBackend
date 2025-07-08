@@ -89,7 +89,7 @@ server.use(
   cors({
     exposedHeaders: ['X-Total-Count'],
     credentials: true,  // This is crucial
-    origin: 'http://localhost:3000' // Specify your frontend origin
+    origin: 'https://my-x-street-frontend.vercel.app' // Specify your frontend origin
   })
 );
 server.set('trust proxy', 1); // If behind a proxy like Nginx
