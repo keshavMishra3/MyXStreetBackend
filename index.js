@@ -80,8 +80,14 @@ server.use(cookieParser());
 server.use(
   session({
     secret: process.env.SESSION_KEY,
-    resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: true, // Required for HTTPS
+      sameSite: 'none', // Required for cross-origin
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+    }
   })
 );
 server.use(passport.authenticate('session'));
@@ -92,6 +98,7 @@ server.use(
     origin: 'https://my-x-street-frontend.vercel.app' // Specify your frontend origin
   })
 );
+server.options('*', cors());
 server.set('trust proxy', 1); // If behind a proxy like Nginx
 server.use(express.json()); // to parse req.body
 
